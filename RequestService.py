@@ -1,6 +1,6 @@
 from asyncio.windows_events import NULL
 import string
-import requests
+import pip._vendor.requests as requests
 import json
 
 from ConfigService import ConfigService
