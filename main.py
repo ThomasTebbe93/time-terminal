@@ -15,7 +15,6 @@ appConfig.sections()
 global currentUserIdent
 currentUserIdent = None
 
-
 class ABC(tk.Frame):
     def __init__(self, parent=None):
         tk.Frame.__init__(self, parent)
@@ -31,17 +30,19 @@ class ABC(tk.Frame):
             if chipId is not None:
 
                 requestService = RequestService(self.config)
-                userinfo = requestService.getUserInfoByChip(chipId)
+                userInfo = requestService.getUserInfoByChip(chipId)
 
-                if userinfo:
+                if userInfo:
+                    global currentUserIdent
                     currentUserIdent = userInfo["Ident"]
-                    showUser(userinfo["UserName"], True)
-                # if userinfo
+                    showUser(userInfo["UserName"], userInfo["SignedIn"])
+                # if userInfo
                 #    removeUser()
-                # if userinfo
+                # if userInfo
                 #    notAssignedChip()
 
-        def signIn():
+        def onSignIn():
+            global currentUserIdent
             if currentUserIdent is not None and currentUserIdent != "":
                 requestService = RequestService(self.config)
                 result = requestService.signIn(currentUserIdent)
@@ -52,7 +53,8 @@ class ABC(tk.Frame):
                     showError("Fehler beim Anmelden")
                     currentUserIdent = None
 
-        def signOut():
+        def onSignOut():
+            global currentUserIdent
             if currentUserIdent is not None and currentUserIdent != "":
                 requestService = RequestService(self.config)
                 result = requestService.signOut(currentUserIdent)
@@ -118,6 +120,7 @@ class ABC(tk.Frame):
             bg="#aaffaa",
             width=10,
             height=5,
+            command= onSignIn,
         )
         signInButton.config(font=("Courier", 22))
         signInButton.pack()
@@ -129,6 +132,7 @@ class ABC(tk.Frame):
             bg="#ffaaaa",
             width=10,
             height=5,
+            command=onSignOut,
         )
         signOutButton.config(font=("Courier", 22))
         signOutButton.pack()
