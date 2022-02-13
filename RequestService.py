@@ -2,6 +2,7 @@ import string
 import requests
 import json
 import configparser
+from datetime import datetime
 
 
 class RequestService:
@@ -26,6 +27,46 @@ class RequestService:
             else:
                 print("error trying to authenticate")
 
+    def signIn(self, userIdent: string) -> json:
+        now = datetime.now()
+        current_time = now.strftime("%Y-%d-%m %H:%M:%S")
+        url = "%s/dutyHoursBooking/signInByChip" % (self.baseurl)
+        payload = {
+            "UserIdent": userIdent,
+            "BookingTime": current_time,
+        }
+        headers = {
+            "content-type": "application/json; charset=UTF-8",
+            "Authorization": "Bearer %s" % (self.autToken),
+        }
+        r = requests.post(url, data=json.dumps(payload), headers=headers)
+
+        if r.status_code == 200:
+            return True
+        else:
+            print("error trying to authenticate")
+            return False
+
+    def signOut(self, userIdent: string) -> json:
+        now = datetime.now()
+        current_time = now.strftime("%Y-%d-%m %H:%M:%S")
+        url = "%s/dutyHoursBooking/signOutByChip" % (self.baseurl)
+        payload = {
+            "UserIdent": userIdent,
+            "BookingTime": current_time,
+        }
+        headers = {
+            "content-type": "application/json; charset=UTF-8",
+            "Authorization": "Bearer %s" % (self.autToken),
+        }
+        r = requests.post(url, data=json.dumps(payload), headers=headers)
+
+        if r.status_code == 200:
+            return True
+        else:
+            print("error trying to authenticate")
+            return False
+
     def getUserInfoByChip(self, uid: string) -> json:
         # url = "%s/user/byChipId" % (self.baseurl)
         # headers = {
@@ -35,6 +76,6 @@ class RequestService:
 
         # r = requests.get(url, headers=headers)
         if uid == "daf8a059":
-            return {"UserName": "Thomas Tebbe"}
+            return {"UserName": "Thomas Tebbe", "Ident": ""}
         if uid == "8dbe785":
-            return {"UserName": "Malte Spiegel"}
+            return {"UserName": "Malte Spiegel", "Ident": ""}

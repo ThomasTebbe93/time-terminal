@@ -12,6 +12,9 @@ appConfig = configparser.ConfigParser()
 appConfig.read("config.ini")
 appConfig.sections()
 
+global currentUserIdent
+currentUserIdent = None
+
 
 class ABC(tk.Frame):
     def __init__(self, parent=None):
@@ -27,15 +30,38 @@ class ABC(tk.Frame):
             chipId = ChipReader().read()
             if chipId is not None:
 
-                requestservice = RequestService(self.config)
-                userinfo = requestservice.getUserInfoByChip(chipId)
+                requestService = RequestService(self.config)
+                userinfo = requestService.getUserInfoByChip(chipId)
 
                 if userinfo:
+                    currentUserIdent = userInfo["Ident"]
                     showUser(userinfo["UserName"], True)
                 # if userinfo
                 #    removeUser()
                 # if userinfo
                 #    notAssignedChip()
+
+        def signIn():
+            if currentUserIdent is not None and currentUserIdent != "":
+                requestService = RequestService(self.config)
+                result = requestService.signIn(currentUserIdent)
+                if result == True:
+                    removeUser()
+                    currentUserIdent = None
+                else:
+                    showError("Fehler beim Anmelden")
+                    currentUserIdent = None
+
+        def signOut():
+            if currentUserIdent is not None and currentUserIdent != "":
+                requestService = RequestService(self.config)
+                result = requestService.signOut(currentUserIdent)
+                if result == True:
+                    removeUser()
+                    currentUserIdent = None
+                else:
+                    showError("Fehler beim Abmelden")
+                    currentUserIdent = None
 
         def showUser(username: string, signedIn):
             userLable.config(text="Wilkommen {}".format(username))
@@ -50,6 +76,9 @@ class ABC(tk.Frame):
             userLable.config(text="")
             signIn.pack_forget()
             signOut.pack_forget()
+
+        def showError(meaasge: string):
+            userLable.config(text=meaasge)
 
         def notAssignedChip():
             userLable.config(text="Unbekannter / nicht zugewiesener Chip")
