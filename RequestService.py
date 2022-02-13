@@ -76,6 +76,6 @@ class RequestService:
 
         # r = requests.get(url, headers=headers)
         if uid == "daf8a059":
-            return {"UserName": "Thomas Tebbe", "Ident": ""}
+            return {"UserName": "Thomas Tebbe", "Ident": "f184d9d2-c859-4846-9226-374724382f39"}
         if uid == "8dbe785":
-            return {"UserName": "Malte Spiegel", "Ident": ""}
+            return {"UserName": "Malte Spiegel", "Ident": "b69dd5a4-950f-4479-a383-ca7cdd5dbdad"}
