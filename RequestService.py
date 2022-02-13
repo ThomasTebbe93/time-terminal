@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 import string
 import requests
 import json
@@ -38,4 +37,7 @@ class RequestService:
         # }
 
         # r = requests.get(url, headers=headers)
-        return {"UserName": "Thomas Tebbe"}
+        if uid == 'daf8a059':
+            return {"UserName": "Thomas Tebbe"}
+        if uid == '8dbe785':
+            return {"UserName": "Malte Spiegel"}

@@ -16,15 +16,16 @@ class ABC(tk.Frame):
     def make_widgets(self):
         def checkForScan():
             chipId = ChipReader().read()
-            requestservice = RequestService()
-            userinfo = requestservice.getUserInfoByChip("aabbcc22")
+            if chipId is not None:
+                requestservice = RequestService()
+                userinfo = requestservice.getUserInfoByChip(chipId)
 
-            if userinfo:
-                showUser(userinfo["UserName"], True)
-            # if userinfo
-            #    removeUser()
-            # if userinfo
-            #    notAssignedChip()
+                if userinfo:
+                    showUser(userinfo["UserName"], True)
+                # if userinfo
+                #    removeUser()
+                # if userinfo
+                #    notAssignedChip()
 
         def showUser(username: string, signedIn):
             userLable.config(text="Wilkommen {}".format(username))
@@ -96,7 +97,7 @@ class ABC(tk.Frame):
         spacer = tk.Frame(master=body, height=50, bg="#eeeeee")
         spacer.pack(side=tk.BOTTOM)
 
-        LoopExecuter(2, checkForScan)
+        LoopExecuter(0.25, checkForScan)
 
 
 def toggleFullScreen(self, event):

@@ -5,21 +5,18 @@ import signal
 
 
 class ChipReader(object):
-    def end_read(signal, frame):
-        global continue_reading
-        print("Ctrl+C captured, ending read.")
-        GPIO.cleanup()
-
-    def uidToString(uid: list) -> string:
+    def uidToString(self, uid: list) -> string:
         return "%s%s%s%s" % (
-            f"{hex(uid[0]):02}",
-            f"{hex(uid[1]):02}",
-            f"{hex(uid[2]):02}",
-            f"{hex(uid[3]):02}",
+            self.intToHex(uid[0]),
+            self.intToHex(uid[1]),
+            self.intToHex(uid[2]),
+            self.intToHex(uid[3]),
         )
 
+    def intToHex(self, value: int) -> string:
+        return f'{value:x}'
+
     def read(self) -> string:
-        signal.signal(signal.SIGINT, self.end_read)
         MIFAREReader = mfrc.MFRC522()
         (status) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
 
@@ -33,6 +30,7 @@ class ChipReader(object):
                 "Card read UID: %s,%s,%s,%s"
                 % (hex(uid[0]), hex(uid[1]), hex(uid[2]), hex(uid[3]))
             )
-            result = self.uidToString(uid)
+            uidList = [uid[0], uid[1], uid[2], uid[3]]
+            result = self.uidToString(uidList)
             print("Card read UID: %s" % (result))
             return result
