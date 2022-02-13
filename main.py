@@ -1,36 +1,32 @@
 import string
 import tkinter as tk
 from tkinter import Button
-
+from ChipReader import ChipReader
+from RequestService import RequestService
 from loopExecuter import LoopExecuter
-
-global counter
-counter = 0
 
 
 class ABC(tk.Frame):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None) -> function:
         tk.Frame.__init__(self, parent)
         self.parent = parent
         self.pack()
         self.make_widgets()
 
-    def make_widgets(self):
-        def increaseCounter():
-            global counter
-            if (counter % 10) == 0:
-                showUser("Heiner Lampe", True)
-            if (counter % 10) == 2:
-                removeUser()
-            if (counter % 10) == 4:
-                showUser("Max Mustermann", False)
-            if (counter % 10) == 6:
-                removeUser()
-            if (counter % 10) == 8:
-                notAssignedChip()
-            click_button()
+    def make_widgets(self) -> function:
+        def checkForScan(self) -> function:
+            chipId = ChipReader().read()
+            requestservice = RequestService()
+            userinfo = requestservice.getUserInfoByChip(chipId)
 
-        def showUser(username: string, signedIn):
+            if userinfo:
+                showUser(userinfo, True)
+            # if userinfo
+            #    removeUser()
+            # if userinfo
+            #    notAssignedChip()
+
+        def showUser(username: string, signedIn) -> function:
             userLable.config(text="Wilkommen {}".format(username))
             if signedIn == True:
                 signIn.pack_forget()
@@ -39,26 +35,17 @@ class ABC(tk.Frame):
                 signOut.pack_forget()
                 signIn.pack()
 
-        def removeUser():
+        def removeUser() -> function:
             userLable.config(text="")
             signIn.pack_forget()
             signOut.pack_forget()
 
-        def notAssignedChip():
+        def notAssignedChip() -> function:
             userLable.config(text="Unbekannter / nicht zugewiesener Chip")
             signIn.pack_forget()
             signOut.pack_forget()
 
-        def click_button():
-            global counter
-            counter = counter + 1
-
-        # don't assume that self.parent is a root window.
-        # instead, call `winfo_toplevel to get the root window
         self.winfo_toplevel().title("ChipScanner")
-
-        # this adds something to the frame, otherwise the default
-        # size of the window will be very small
 
         titleFrame = tk.Frame(master=self.winfo_toplevel(), height=100, bg="#eeeeee")
         titleFrame.pack(fill=tk.X, side=tk.TOP)
@@ -109,7 +96,7 @@ class ABC(tk.Frame):
         spacer = tk.Frame(master=body, height=50, bg="#eeeeee")
         spacer.pack(side=tk.BOTTOM)
 
-        LoopExecuter(2, increaseCounter)
+        LoopExecuter(2, checkForScan)
 
 
 def toggleFullScreen(self, event):
