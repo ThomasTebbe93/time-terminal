@@ -1,3 +1,4 @@
+from distutils.command.config import config
 import string
 import tkinter as tk
 from tkinter import Button
@@ -6,16 +7,19 @@ from RequestService import RequestService
 from loopExecuter import LoopExecuter
 import configparser
 
+global appConfig
+appConfig = configparser.ConfigParser()
+appConfig.read("config.ini")
+appConfig.sections()
+
 
 class ABC(tk.Frame):
     def __init__(self, parent=None):
         tk.Frame.__init__(self, parent)
         self.parent = parent
         self.pack()
-        config = configparser.ConfigParser()
-        config.read("config.ini")
-        config.sections()
-        self.config = config
+        global appConfig
+        self.config = appConfig
         self.make_widgets()
 
     def make_widgets(self):
