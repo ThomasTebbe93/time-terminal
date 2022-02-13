@@ -4,6 +4,7 @@ from tkinter import Button
 from ChipReader import ChipReader
 from RequestService import RequestService
 from loopExecuter import LoopExecuter
+import configparser
 
 
 class ABC(tk.Frame):
@@ -11,13 +12,18 @@ class ABC(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.parent = parent
         self.pack()
+        config = configparser.ConfigParser()
+        config.read("config.ini")
+        config.sections()
+        self.config = config
         self.make_widgets()
 
     def make_widgets(self):
         def checkForScan():
             chipId = ChipReader().read()
             if chipId is not None:
-                requestservice = RequestService()
+
+                requestservice = RequestService(self.config)
                 userinfo = requestservice.getUserInfoByChip(chipId)
 
                 if userinfo:

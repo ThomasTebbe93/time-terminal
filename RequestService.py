@@ -5,10 +5,7 @@ import configparser
 
 
 class RequestService:
-    def __init__(self):
-        config = configparser.ConfigParser()
-        config.read("config.ini")
-        config.sections()
+    def __init__(self, config: configparser):
         self.baseurl = config["API"]["BaseURL"]
         self.login = config["Terminal.User.Credentials"]["Login"]
         self.password = config["Terminal.User.Credentials"]["Password"]
@@ -37,7 +34,7 @@ class RequestService:
         # }
 
         # r = requests.get(url, headers=headers)
-        if uid == 'daf8a059':
+        if uid == "daf8a059":
             return {"UserName": "Thomas Tebbe"}
-        if uid == '8dbe785':
+        if uid == "8dbe785":
             return {"UserName": "Malte Spiegel"}
