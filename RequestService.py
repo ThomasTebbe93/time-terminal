@@ -7,7 +7,7 @@ from ConfigService import ConfigService
 
 
 class RequestService:
-    def __init__(self) -> function:
+    def __init__(self):
         config = ConfigService()
         self.baseurl = config.config["API"]["BaseURL"]
         self.login = config.config["Terminal.User.Credentials"]["Login"]

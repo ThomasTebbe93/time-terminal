@@ -5,7 +5,7 @@ import signal
 
 
 class ChipReader(object):
-    def end_read(signal, frame) -> function:
+    def end_read(signal, frame):
         global continue_reading
         print("Ctrl+C captured, ending read.")
         GPIO.cleanup()
