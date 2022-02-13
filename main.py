@@ -14,13 +14,13 @@ class ABC(tk.Frame):
         self.make_widgets()
 
     def make_widgets(self):
-        def checkForScan(self):
+        def checkForScan():
             chipId = ChipReader().read()
             requestservice = RequestService()
-            userinfo = requestservice.getUserInfoByChip(chipId)
+            userinfo = requestservice.getUserInfoByChip("aabbcc22")
 
             if userinfo:
-                showUser(userinfo, True)
+                showUser(userinfo["UserName"], True)
             # if userinfo
             #    removeUser()
             # if userinfo

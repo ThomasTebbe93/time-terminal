@@ -1,17 +1,18 @@
 from asyncio.windows_events import NULL
 import string
-import pip._vendor.requests as requests
+import requests
 import json
-
-from ConfigService import ConfigService
+import configparser
 
 
 class RequestService:
     def __init__(self):
-        config = ConfigService()
-        self.baseurl = config.config["API"]["BaseURL"]
-        self.login = config.config["Terminal.User.Credentials"]["Login"]
-        self.password = config.config["Terminal.User.Credentials"]["Password"]
+        config = configparser.ConfigParser()
+        config.read("config.ini")
+        config.sections()
+        self.baseurl = config["API"]["BaseURL"]
+        self.login = config["Terminal.User.Credentials"]["Login"]
+        self.password = config["Terminal.User.Credentials"]["Password"]
         self.token = self.getToken()
 
     def getToken(self) -> string:
@@ -23,9 +24,9 @@ class RequestService:
         r = requests.post(url, data=json.dumps(payload), headers=headers)
 
         if r.status_code == 200:
-            result = json.decoder(r.json())
-            if result.token:
-                return result.token
+            result = r.json()
+            if result["token"]:
+                return result["token"]
             else:
                 print("error trying to authenticate")
 
@@ -37,4 +38,4 @@ class RequestService:
         # }
 
         # r = requests.get(url, headers=headers)
-        return json.decoder("{'UserName': 'Thomas Tebbe'}")
+        return {"UserName": "Thomas Tebbe"}
