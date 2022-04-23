@@ -66,14 +66,18 @@ class RequestService:
 
 
     def getUserInfoByChip(self, uid: string) -> json:
-        # url = "%s/user/byChipId" % (self.baseurl)
-        # headers = {
-        #     "content-type": "application/json; charset=UTF-8",
-        #     "Authorization": "Bearer %s" % (self.autToken),
-        # }
-        # with requests.get(url,  headers=headers) as r:
-        #    r = requests.get(url, headers=headers)
-        if uid == "daf8a059":
-            return {"UserName": "Thomas Tebbe", "Ident": "f184d9d2-c859-4846-9226-374724382f39", "SignedIn": False}
-        if uid == "8dbe785":
-            return {"UserName": "Malte Spiegel", "Ident": "b69dd5a4-950f-4479-a383-ca7cdd5dbdad", "SignedIn": True}
+        url = "%s/dutyHoursBooking/getPersonAndStateByChipId" % (self.baseurl)
+        payload = {
+            "ChipId": uid,
+        }
+        headers = {
+            "content-type": "application/json; charset=UTF-8",
+            "Authorization": "Bearer %s" % (self.autToken),
+        }
+        with requests.post(url, data=json.dumps(payload), headers=headers) as r:
+            if r.status_code == 200:
+                
+                return {"UserName": "Malte Spiegel", "Ident": "b69dd5a4-950f-4479-a383-ca7cdd5dbdad", "SignedIn": True}
+            else:
+                print("error trying to sign out")
+                return False
