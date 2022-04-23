@@ -4,12 +4,10 @@ import MFRC522 as mfrc
 
 class ChipReader(object):
     def uidToString(self, uid: list) -> string:
-        return "%s%s%s%s" % (
-            self.intToHex(uid[0]),
-            self.intToHex(uid[1]),
-            self.intToHex(uid[2]),
-            self.intToHex(uid[3]),
-        )
+        result = ""
+        for x in uid:
+            result= result.join()
+        return "".join("%s" % self.intToHex(x))
 
     def intToHex(self, value: int) -> string:
         return f"{value:x}"
@@ -24,12 +22,6 @@ class ChipReader(object):
         (status, uid) = MIFAREReader.MFRC522_Anticoll()
 
         if status == MIFAREReader.MI_OK:
-            print(
-                "Card read UID: %s,%s,%s,%s"
-                % (hex(uid[0]), hex(uid[1]), hex(uid[2]), hex(uid[3]))
-            )
-            uidList = [uid[0], uid[1], uid[2], uid[3]]
-            result = self.uidToString(uidList)
+            result = self.uidToString(list(uid))
             print("Card read UID: %s" % (result))
             return result
-

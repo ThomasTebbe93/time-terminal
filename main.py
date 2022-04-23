@@ -152,8 +152,8 @@ def quitFullScreen(self, event):
 
 
 root = tk.Tk()
-root.geometry("480x320")
-# root.attributes("-fullscreen", True)
+root.geometry("800x480")
+root.attributes("-fullscreen", True)
 # root.bind("<F11>", toggleFullScreen)
 # root.bind("<Escape>", quitFullScreen)
 abc = ABC(root)
