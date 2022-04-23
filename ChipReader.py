@@ -6,8 +6,8 @@ class ChipReader(object):
     def uidToString(self, uid: list) -> string:
         result = ""
         for x in uid:
-            result= result.join()
-        return "".join("%s" % self.intToHex(x))
+            result= result + (self.intToHex(x).zfill(2))
+        return result
 
     def intToHex(self, value: int) -> string:
         return f"{value:x}"

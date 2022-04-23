@@ -32,14 +32,14 @@ class ABC(tk.Frame):
                 requestService = RequestService(self.config)
                 userInfo = requestService.getUserInfoByChip(chipId)
 
-                if userInfo:
+                if userInfo is not None:
                     global currentUserIdent
                     currentUserIdent = userInfo["Ident"]
                     showUser(userInfo["UserName"], userInfo["SignedIn"])
-                # if userInfo
-                #    removeUser()
-                # if userInfo
-                #    notAssignedChip()
+                if userInfo is None:
+                    removeUser()
+                    showError("Unbekannter Chip %s" % (chipId))
+                    currentUserIdent = None
 
         def onSignIn():
             global currentUserIdent
@@ -153,7 +153,7 @@ def quitFullScreen(self, event):
 
 root = tk.Tk()
 root.geometry("800x480")
-root.attributes("-fullscreen", True)
+# root.attributes("-fullscreen", True)
 # root.bind("<F11>", toggleFullScreen)
 # root.bind("<Escape>", quitFullScreen)
 abc = ABC(root)
